@@ -1,0 +1,42 @@
+{
+    "name": "Automatic Heroku Setup of Parsig",
+    "description": "This app creates and deploy the bot forwarder.",
+    "keywords": [
+      "copy",
+      "telegram",
+      "forwarder"
+    ],
+    "website": "konichar.tech",
+    "repository": "https://github.com/konichar/parsig.service",
+    "logo": "https://small-sharp-tool.com/logo.svg",
+    "success_url": "/it-worked",
+    "scripts": {
+      "postdeploy": "bundle exec rake bootstrap"
+    },
+    "env": {
+        "TOKEN": "38b07c07-b1ee-4251-8995-ebc28de9eed8",
+        "URL": "https//api.heroku.com"
+    },
+    "formation": {
+      "web": {
+        "quantity": 1,
+        "size": "standard-1x"
+      }
+    },
+    "image": "heroku/ruby",
+    "addons": [
+      "redistogo"
+    ],
+    "buildpacks": [
+      {
+        "url": "https://github.com/stomita/heroku-buildpack-phantomjs"
+      }
+    ],
+    "environments": {
+      "test": {
+        "scripts": {
+          "test": "bundle exec rake test"
+        }
+      }
+    }
+  }
