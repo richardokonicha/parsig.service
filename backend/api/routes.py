@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Body
 from fastapi.encoders import jsonable_encoder
-from api.model import NoteSchema
+from backend.api.model import NoteSchema
 
 router = APIRouter()
 
