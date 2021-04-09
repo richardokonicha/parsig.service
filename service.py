@@ -28,10 +28,10 @@ class HerokuClient:
         return app_response
 
     def create_app(self, name):
-        url = f"{self.url}/apps"
+        endpoint = f"{self.url}/apps/"
         data={ "name" : name }
         app_response = requests.post(
-        url=self.url,
+        url=endpoint,
         headers=self.headers,
         json=data
         ).json()
@@ -46,7 +46,7 @@ class HerokuClient:
         return app_response
 
     def info_app(self, name):
-        url = f"{self.url}/apps/{name}/builds"
+        url = f"{self.url}/apps/{name}/formation"
         app_response = requests.get(
             url=url,
             headers=self.headers,
@@ -58,10 +58,6 @@ class HerokuClient:
         data = {
             "process_types": {"worker":"python3 telethon_access.py"} ,
             'buildpack_provided_description': 'Python',
-            # "blob":{
-            # "method": "put",
-            # "url": "https://github.com/konichar/parsig"
-            # }
             }
         app_response = requests.post(
             url=url,
@@ -75,7 +71,6 @@ class HerokuClient:
         data = {
             "slug": '8e258a29-e4c6-4bd8-afc0-bfd2f9203162',
             "description": "parsig release",
-
         }
         app_response = requests.post(
             url=url,
@@ -98,40 +93,38 @@ class HerokuClient:
         ).json()
         return app_response
     
+    def create_formation(self, name):
+        url = f"{self.url}/apps/{name}/formation/worker/"
+        data = {
+            "quantity": 1,
+            # "size": "standard-1X"
+            }
+        app_response = requests.patch(
+            url=url,
+            headers=self.headers,
+            json=data
+        ).json()
+        return app_response
+    
+    def set_config_vars(self, name):
+        url = f"{self.url}/apps/{name}/config-vars/"
+        data = {
+            "API_HASH": "f36c296645a468c16a698ecb1e59e31b",
+            "API_ID": "1271225",
+            "CHATINPUT": "-1001434923897",
+            "CHATOUTPUT": "https://t.me/TestAB21_bot",
+            "SESSION": "1271225",
+            }
+        app_response = requests.patch(
+            url=url,
+            headers=self.headers,
+            json=data
+        ).json()
+        return app_response
     
 
 
 herokuBridge = HerokuClient(URL, TOKEN, headers)
-result = herokuBridge.create_builds("parsig2")
-
-# result = configure_app(headers, "parsig2")
-# result = info_app(headers, "parsig2")
-# result = delete_app(headers, "parsig2")
-# result = create_app(headers, "parsig2")
-# result = get_apps(headers)
+result = herokuBridge.set_config_vars("parsig3")
 
 pprint(result)
-
-# {'acm': True,
-#  'archived_at': None,
-#  'build_stack': {'id': '2be35cd6-418a-417e-9531-42c5de1dfb96',
-#                  'name': 'heroku-20'},
-#  'buildpack_provided_description': 'Python',
-#  'created_at': '2021-03-17T10:14:19Z',
-#  'git_url': 'https://git.heroku.com/eb2010-a.git',
-#  'id': 'e539a23f-8aa3-4490-9414-ade2d494d425',
-#  'internal_routing': None,
-#  'maintenance': False,
-#  'name': 'eb2010-a',
-#  'organization': None,
-#  'owner': {'email': 'emanuelebraha@gmail.com',
-#            'id': '20d4b6f2-419a-4e2a-a38e-66974915dc5e'},
-#  'region': {'id': '59accabd-516d-4f0e-83e6-6e3757701145', 'name': 'us'},
-#  'released_at': '2021-04-05T07:47:51Z',
-#  'repo_size': None,
-#  'slug_size': 57500639,
-#  'space': None,
-#  'stack': {'id': '2be35cd6-418a-417e-9531-42c5de1dfb96', 'name': 'heroku-20'},
-#  'team': None,
-#  'updated_at': '2021-04-05T07:47:51Z',
-#  'web_url': 'https://eb2010-a.herokuapp.com/'}
