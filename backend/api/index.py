@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from fastapi import FastAPI
-from api.routes import router as NoteRouter
+from backend.api.routes import router as NoteRouter
 
 
 app = FastAPI(
