@@ -4,7 +4,6 @@ from backend.api.model import NoteSchema
 
 router = APIRouter()
 
-
 notes = {
     "1": {
         "title": "My first note",
@@ -39,7 +38,6 @@ async def get_not(id: str) -> dict:
 async def add_note(note: NoteSchema = Body(...)) -> dict:
     note.id = str(len(notes) + 1)
     notes[note.id] = note.dict()
-
     return {
         "message": "Note added successfully"
     }
